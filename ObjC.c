@@ -131,7 +131,6 @@ vehicleBase_t* vehicleInit(vehicleType_t vehType)
         case VEH_TYPE_PASSENGER:
             objSize = sizeof(passengerCarClass_t);
             ret = (vehicleBase_t*)malloc(passengerCarClass_t);
-            ret->destructor = 
             break;
 
         case VEH_TYPE_VAN:
