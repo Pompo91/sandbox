@@ -35,24 +35,11 @@ typedef enum
     VEH_TYPE_CNT    // keep this at the end of the struct
 } vehicleType_t;
 
-typedef bool (*vehicleDrive_fp)(void);
-typedef bool (*destructor_fp)(void);
-
 /* this is the tricky part I always need to google and I'm not sure I did it right this time, since I'm bloody lazy... The thing is:
     - you need to have some symbolic name (hence the first typedef) for the base struct even before you actually define the base structure itself,
       so you can then reference itself ("this") as the first member of the base. The trick consisted of typedef-ing the struct first and then creating
       the base struct without "typedef" as you're used to (see the passengerCsarClass_t and vanClass_t for reference) */
 typedef struct base_t vehicleBase_t;
-
-struct base_t
-{
-    vehicleBase_t*  basePtr;
-    vehicleType_t   vehType;
-    engineType_t    engType;
-    vehicleDrive_fp driveMethod;
-    destructor_fp   destructor;
-    size_t          objSize;        // maybe we don't need to know the object size??? Keeping this for future, delete it in a week if not used...
-};
 
 vehicleBase_t* vehicleInit(vehicleType_t vehType);
 bool vehicleDrive(vehicleBase_t* vehPtr);
@@ -82,6 +69,21 @@ typedef enum
     CARGO_TYPE_OTHERS,
     CARGO_TYPE_CNT
 } cargoType_t;
+
+
+typedef bool (*vehicleDrive_fp)(void);
+typedef bool (*destructor_fp)(void);
+
+// the base class for all the vehicles
+struct base_t
+{
+    vehicleBase_t*  basePtr;
+    vehicleType_t   vehType;
+    engineType_t    engType;
+    vehicleDrive_fp driveMethod;
+    destructor_fp   destructor;
+    size_t          objSize;        // maybe we don't need to know the object size??? Keeping this for future, delete it in a week if not used...
+};
 
 typedef struct
 {
